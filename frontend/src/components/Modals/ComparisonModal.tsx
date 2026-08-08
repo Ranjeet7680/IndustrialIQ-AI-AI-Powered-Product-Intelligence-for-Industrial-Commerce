@@ -16,7 +16,7 @@ interface ProductCompareItem {
   material: string;
   availability: string;
   warranty_months: number;
-  rating: float;
+  rating: number;
 }
 
 interface ComparisonModalProps {

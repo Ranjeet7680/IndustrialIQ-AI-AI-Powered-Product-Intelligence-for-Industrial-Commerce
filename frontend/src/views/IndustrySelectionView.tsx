@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import {
-  PrecisionManufacturing,
+  Factory,
   Car,
   Zap,
   Flame,
@@ -24,7 +24,7 @@ export default function IndustrySelectionView({ onContinue, onSkip }: IndustrySe
   const [selected, setSelected] = useState<string>('Manufacturing');
 
   const sectors = [
-    { id: 'Manufacturing', title: 'Manufacturing', icon: PrecisionManufacturing, desc: 'Supply chain optimization, yield analysis, and predictive maintenance.' },
+    { id: 'Manufacturing', title: 'Manufacturing', icon: Factory, desc: 'Supply chain optimization, yield analysis, and predictive maintenance.' },
     { id: 'Automotive', title: 'Automotive', icon: Car, desc: 'Just-in-time inventory tracking, part provenance, and tier-supplier management.' },
     { id: 'Energy', title: 'Energy', icon: Zap, desc: 'Grid analytics, renewable forecasting, and asset lifecycle management.' },
     { id: 'Oil & Gas', title: 'Oil & Gas', icon: Flame, desc: 'Exploration data models, pipeline monitoring, and safety compliance.' },

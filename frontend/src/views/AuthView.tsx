@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Mail, Lock, Eye, EyeOff, PrecisionManufacturing, ArrowRight } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, Factory, ArrowRight } from 'lucide-react';
 
 interface AuthViewProps {
   onSuccess: () => void;
@@ -34,7 +34,7 @@ export default function AuthView({ onSuccess }: AuthViewProps) {
 
         <div className="relative z-10">
           <div className="flex items-center gap-3">
-            <PrecisionManufacturing className="text-secondary-fixed" size={32} />
+            <Factory className="text-secondary-fixed" size={32} />
             <span className="font-headline-md text-headline-md font-bold">InduIntel</span>
           </div>
         </div>

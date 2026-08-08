@@ -21,3 +21,5 @@ Thumbs.db
 
 # Local Environment & Temp DB
 *.log
+
+.vercel

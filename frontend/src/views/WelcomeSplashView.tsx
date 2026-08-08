@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { Bot, ArrowRight, ShieldCheck, Factory, PrecisionManufacturing, LocalShipping, Architecture } from 'lucide-react';
+import { Bot, ArrowRight, ShieldCheck, Factory, Truck, Building2 } from 'lucide-react';
 
 interface WelcomeSplashViewProps {
   onGetStarted: () => void;
@@ -76,9 +76,9 @@ export default function WelcomeSplashView({ onGetStarted, onSignIn }: WelcomeSpl
           </p>
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-70">
             <div className="flex items-center gap-2"><Factory size={22} /><span className="font-bold text-sm">AeroSteel</span></div>
-            <div className="flex items-center gap-2"><PrecisionManufacturing size={22} /><span className="font-bold text-sm">TechMach</span></div>
-            <div className="flex items-center gap-2"><LocalShipping size={22} /><span className="font-bold text-sm">GlobalLogis</span></div>
-            <div className="flex items-center gap-2"><Architecture size={22} /><span className="font-bold text-sm">BuildCorp</span></div>
+            <div className="flex items-center gap-2"><Factory size={22} /><span className="font-bold text-sm">TechMach</span></div>
+            <div className="flex items-center gap-2"><Truck size={22} /><span className="font-bold text-sm">GlobalLogis</span></div>
+            <div className="flex items-center gap-2"><Building2 size={22} /><span className="font-bold text-sm">BuildCorp</span></div>
           </div>
         </div>
       </footer>
