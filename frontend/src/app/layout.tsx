@@ -2,8 +2,13 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'IndustrialIQ AI - Enterprise Product Intelligence',
-  description: 'AI-powered product intelligence for smarter industrial commerce.',
+  title: 'IndustrialIQ AI — Industrial Commerce Intelligence',
+  description: 'AI-powered product intelligence for smarter industrial commerce and procurement.',
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({
@@ -14,6 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="light">
       <head>
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
