@@ -2,10 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  body {
-    @apply bg-surface text-on-surface font-body-md antialiased;
-  }
+body {
+  background-color: #fcf8fa;
+  color: #1b1b1d;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 .ai-glow {
