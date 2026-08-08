@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-surface text-on-surface font-body-md antialiased;
+  }
+}
+
+.ai-glow {
+  box-shadow: 0 0 20px rgba(172, 237, 255, 0.15);
+  border-top: 2px solid #2170e4;
+}
+
+.ai-glow-purple {
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.1);
+  border-top: 2px solid #a855f7;
+}
+
+.industrial-bg {
+  background-image: linear-gradient(to bottom right, rgba(19, 27, 46, 0.85), rgba(19, 27, 46, 0.98)), url('https://lh3.googleusercontent.com/aida-public/AB6AXuDEiAJ4QBhOFnRryitRQTU451YeVBpc12mvThJaiII9Yg3bMTze1r-NmeqjFx2TgUOHkL6hGBEuGCh6R8z0ZAfnaChOS2u09O0YGeYUJnkyAenVtDJ4qQ3OGe-HvTrM-3KcA5EutD4TxEB6Rb7c_wJQLfvrsLuZklcNMm8rrQqoNL6XL1cz3HukyCdaywRjxvO4xdZimTTEXv2jzHUhGYEMbiRP-dXSpiPtUiT3x1EgbpzA1aSlc5YKsw');
+  background-size: cover;
+  background-position: center;
+}

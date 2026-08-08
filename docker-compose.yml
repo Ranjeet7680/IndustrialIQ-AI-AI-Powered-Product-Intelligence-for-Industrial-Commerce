@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite:///./industrial_iq.db
+      - SECRET_KEY=industrial-iq-super-secret-key-change-in-production-2026
+    volumes:
+      - .:/app
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: industrial_iq
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
