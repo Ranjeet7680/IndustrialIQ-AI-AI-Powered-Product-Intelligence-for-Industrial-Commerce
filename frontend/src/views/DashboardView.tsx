@@ -41,11 +41,11 @@ export default function DashboardView({ onNavigate }: DashboardViewProps) {
     async function loadData() {
       try {
         const k = await getDashboardKPIs();
-        setKpis(k);
+        if (k) setKpis(k);
         const s = await getProcurementSpend();
-        setSpendData(s);
+        if (s && Array.isArray(s)) setSpendData(s);
         const t = await getPriceTrends();
-        setTrendData(t);
+        if (t && Array.isArray(t)) setTrendData(t);
       } catch (err) {
         console.log('Using default mock analytics data.');
       }
@@ -84,7 +84,7 @@ export default function DashboardView({ onNavigate }: DashboardViewProps) {
       <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
         <div className="bg-surface-container-lowest border border-outline-variant rounded-lg p-4">
           <div className="text-on-surface-variant font-label-caps text-[10px] uppercase font-bold mb-1">Products Analyzed</div>
-          <div className="font-headline-md text-xl font-bold text-on-surface">{kpis.products_analyzed.toLocaleString()}</div>
+          <div className="font-headline-md text-xl font-bold text-on-surface">{(kpis?.products_analyzed ?? 12480).toLocaleString()}</div>
           <div className="mt-2 text-green-600 font-data-mono text-xs flex items-center gap-1">
             <ArrowUpRight size={14} /> 4.2%
           </div>
@@ -92,7 +92,7 @@ export default function DashboardView({ onNavigate }: DashboardViewProps) {
 
         <div className="bg-surface-container-lowest border border-outline-variant rounded-lg p-4">
           <div className="text-on-surface-variant font-label-caps text-[10px] uppercase font-bold mb-1">AI Recommendations</div>
-          <div className="font-headline-md text-xl font-bold text-on-surface">{kpis.ai_recommendations}</div>
+          <div className="font-headline-md text-xl font-bold text-on-surface">{kpis?.ai_recommendations ?? 328}</div>
           <div className="mt-2 text-green-600 font-data-mono text-xs flex items-center gap-1">
             <ArrowUpRight size={14} /> 12%
           </div>
@@ -100,7 +100,7 @@ export default function DashboardView({ onNavigate }: DashboardViewProps) {
 
         <div className="bg-surface-container-lowest border border-outline-variant rounded-lg p-4">
           <div className="text-on-surface-variant font-label-caps text-[10px] uppercase font-bold mb-1">Procurement Opps</div>
-          <div className="font-headline-md text-xl font-bold text-on-surface">{kpis.procurement_opps}</div>
+          <div className="font-headline-md text-xl font-bold text-on-surface">{kpis?.procurement_opps ?? '₹24.8L'}</div>
           <div className="mt-2 text-on-surface-variant font-data-mono text-xs flex items-center gap-1">
             <Minus size={14} /> 0%
           </div>
@@ -108,7 +108,7 @@ export default function DashboardView({ onNavigate }: DashboardViewProps) {
 
         <div className="bg-surface-container-lowest border border-outline-variant rounded-lg p-4">
           <div className="text-on-surface-variant font-label-caps text-[10px] uppercase font-bold mb-1">Potential Savings</div>
-          <div className="font-headline-md text-xl font-bold text-on-surface">{kpis.potential_savings}</div>
+          <div className="font-headline-md text-xl font-bold text-on-surface">{kpis?.potential_savings ?? '₹8.4L'}</div>
           <div className="mt-2 text-green-600 font-data-mono text-xs flex items-center gap-1">
             <ArrowUpRight size={14} /> 2.1%
           </div>
@@ -116,7 +116,7 @@ export default function DashboardView({ onNavigate }: DashboardViewProps) {
 
         <div className="bg-surface-container-lowest border border-outline-variant rounded-lg p-4">
           <div className="text-on-surface-variant font-label-caps text-[10px] uppercase font-bold mb-1">Active Suppliers</div>
-          <div className="font-headline-md text-xl font-bold text-on-surface">{kpis.active_suppliers}</div>
+          <div className="font-headline-md text-xl font-bold text-on-surface">{kpis?.active_suppliers ?? 184}</div>
           <div className="mt-2 text-red-600 font-data-mono text-xs flex items-center gap-1">
             <ArrowDownRight size={14} /> 1.5%
           </div>
@@ -124,7 +124,7 @@ export default function DashboardView({ onNavigate }: DashboardViewProps) {
 
         <div className="bg-surface-container-lowest border border-outline-variant rounded-lg p-4">
           <div className="text-on-surface-variant font-label-caps text-[10px] uppercase font-bold mb-1">Open Orders</div>
-          <div className="font-headline-md text-xl font-bold text-on-surface">{kpis.open_orders}</div>
+          <div className="font-headline-md text-xl font-bold text-on-surface">{kpis?.open_orders ?? 42}</div>
           <div className="mt-2 text-on-surface-variant font-data-mono text-xs flex items-center gap-1">
             <Minus size={14} /> 0%
           </div>

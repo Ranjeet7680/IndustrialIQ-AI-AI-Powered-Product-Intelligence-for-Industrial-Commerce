@@ -11,7 +11,7 @@ export default function SuppliersView() {
     async function load() {
       try {
         const data = await getSuppliers();
-        setSuppliers(data);
+        setSuppliers(Array.isArray(data) ? data : []);
       } catch (err) {
         console.log('Error fetching suppliers');
       }

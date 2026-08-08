@@ -12,8 +12,9 @@ export default function OrdersView() {
     async function load() {
       try {
         const data = await getOrders();
-        setOrders(data);
-        if (data.length > 0) setSelectedOrder(data[0]);
+        const list = Array.isArray(data) ? data : [];
+        setOrders(list);
+        if (list.length > 0) setSelectedOrder(list[0]);
       } catch (err) {
         console.log('Error loading orders');
       }

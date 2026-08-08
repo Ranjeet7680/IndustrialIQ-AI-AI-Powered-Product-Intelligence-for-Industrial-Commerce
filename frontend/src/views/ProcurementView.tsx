@@ -21,10 +21,11 @@ export default function ProcurementView({ onNavigateOrders }: ProcurementViewPro
   const loadProcurement = async () => {
     try {
       const data = await getProcurementRequests();
-      setRequests(data);
-      if (data.length > 0) {
-        setSelectedReq(data[0]);
-        loadQuotes(data[0].id);
+      const reqList = Array.isArray(data) ? data : [];
+      setRequests(reqList);
+      if (reqList.length > 0) {
+        setSelectedReq(reqList[0]);
+        loadQuotes(reqList[0].id);
       }
     } catch (err) {
       console.log('Error loading procurement data');
@@ -34,7 +35,7 @@ export default function ProcurementView({ onNavigateOrders }: ProcurementViewPro
   const loadQuotes = async (id: number) => {
     try {
       const q = await getQuotations(id);
-      setQuotes(q);
+      setQuotes(Array.isArray(q) ? q : []);
     } catch (err) {
       console.log('Error loading quotes');
     }
