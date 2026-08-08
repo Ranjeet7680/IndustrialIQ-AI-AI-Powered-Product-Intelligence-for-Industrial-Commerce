@@ -26,7 +26,7 @@ import SettingsView from '../views/SettingsView';
 import ThreeFacility from '../components/3D/ThreeFacility';
 
 export default function Home() {
-  const [currentTab, setCurrentTab] = useState<string>('dashboard');
+  const [currentTab, setCurrentTab] = useState<string>('landing');
   const [industry, setIndustry] = useState<string>('Heavy Manufacturing');
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [compareList, setCompareList] = useState<any[]>([]);

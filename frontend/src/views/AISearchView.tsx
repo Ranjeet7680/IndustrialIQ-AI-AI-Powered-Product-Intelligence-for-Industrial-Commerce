@@ -37,7 +37,7 @@ export default function AISearchView({ onCompareToggle, compareList, onSelectPro
       setCurrentPage(1);
     } catch (err) {
       console.log('Error loading products');
-    } fontFinally: {
+    } finally {
       setLoading(false);
     }
   };
