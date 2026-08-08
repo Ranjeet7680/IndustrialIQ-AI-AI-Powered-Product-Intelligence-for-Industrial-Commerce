@@ -22,6 +22,7 @@ import OrdersView from '../views/OrdersView';
 import AnalyticsView from '../views/AnalyticsView';
 import ReportsView from '../views/ReportsView';
 import AdminView from '../views/AdminView';
+import SettingsView from '../views/SettingsView';
 import ThreeFacility from '../components/3D/ThreeFacility';
 
 export default function Home() {
@@ -167,6 +168,8 @@ export default function Home() {
             {currentTab === '3d-facility' && <ThreeFacility />}
 
             {currentTab === 'admin' && <AdminView />}
+
+            {currentTab === 'settings' && <SettingsView />}
 
             {(currentTab === 'recommendations' || currentTab === 'favorites') && (
               <AISearchView

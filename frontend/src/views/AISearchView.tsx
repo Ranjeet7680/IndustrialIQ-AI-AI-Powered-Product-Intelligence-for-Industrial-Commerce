@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Sparkles, Search, Filter, Check, ArrowRightLeft, Heart, Info, Star, ShieldCheck } from 'lucide-react';
+import { Sparkles, Search, Filter, Check, ArrowRightLeft, Heart, Info, Star, ShieldCheck, ChevronLeft, ChevronRight } from 'lucide-react';
 import { getProducts, searchProducts, toggleFavorite } from '../lib/api';
 
 interface AISearchViewProps {
@@ -15,6 +15,8 @@ export default function AISearchView({ onCompareToggle, compareList, onSelectPro
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [favorites, setFavorites] = useState<number[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const itemsPerPage = 24;
 
   // Filter states
   const [category, setCategory] = useState<string>('');
@@ -31,24 +33,22 @@ export default function AISearchView({ onCompareToggle, compareList, onSelectPro
       if (category) params.category = category;
       if (material) params.material = material;
       const res = await getProducts(params);
-      setProducts(res);
+      setProducts(res || []);
+      setCurrentPage(1);
     } catch (err) {
       console.log('Error loading products');
-    } finally {
+    } fontFinally: {
       setLoading(false);
     }
   };
 
   const handleSearch = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    if (!query.trim()) {
-      loadProducts();
-      return;
-    }
     setLoading(true);
     try {
       const res = await searchProducts(query);
-      setProducts(res);
+      setProducts(res || []);
+      setCurrentPage(1);
     } catch (err) {
       console.log('Search fallback');
     } finally {
@@ -74,6 +74,10 @@ export default function AISearchView({ onCompareToggle, compareList, onSelectPro
     }
   };
 
+  // Pagination calculation
+  const totalPages = Math.ceil(products.length / itemsPerPage) || 1;
+  const paginatedProducts = products.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
   return (
     <div className="space-y-6 font-body-md">
       {/* Header & Prompt Input */}
@@ -92,9 +96,10 @@ export default function AISearchView({ onCompareToggle, compareList, onSelectPro
           />
           <button
             type="submit"
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary-container text-on-primary px-4 py-2 rounded text-xs font-semibold hover:bg-primary transition-colors"
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary-container text-on-primary px-4 py-2 rounded text-xs font-semibold hover:bg-primary transition-colors flex items-center gap-1.5"
           >
-            AI Search
+            <Search size={14} />
+            <span>AI Search</span>
           </button>
         </form>
         <p className="text-xs text-on-surface-variant mt-2 flex items-center gap-1">
@@ -110,7 +115,7 @@ export default function AISearchView({ onCompareToggle, compareList, onSelectPro
               <h3 className="font-label-caps uppercase text-on-surface font-bold">Filters</h3>
               <button
                 onClick={() => { setCategory(''); setMaterial(''); setQuery(''); loadProducts(); }}
-                className="text-secondary text-xs hover:underline"
+                className="text-secondary text-xs hover:underline font-semibold"
               >
                 Clear All
               </button>
@@ -119,7 +124,17 @@ export default function AISearchView({ onCompareToggle, compareList, onSelectPro
             {/* Filter Group: Category */}
             <div className="space-y-2 mb-6 border-b border-outline-variant pb-4">
               <h4 className="font-semibold text-on-surface">Category</h4>
-              {['Pumps', 'Valves', 'Motors', 'Bearings', 'Compressors', 'Sensors', 'Robotics'].map((cat) => (
+              <label className="flex items-center gap-2 cursor-pointer text-on-surface-variant hover:text-on-surface">
+                <input
+                  type="radio"
+                  name="category"
+                  checked={category === ''}
+                  onChange={() => setCategory('')}
+                  className="text-secondary-container focus:ring-secondary-container"
+                />
+                <span className="font-medium">All Categories ({products.length})</span>
+              </label>
+              {['Pumps', 'Valves', 'Motors', 'Bearings', 'Compressors', 'Sensors', 'Controllers', 'Robotics'].map((cat) => (
                 <label key={cat} className="flex items-center gap-2 cursor-pointer text-on-surface-variant hover:text-on-surface">
                   <input
                     type="radio"
@@ -136,7 +151,7 @@ export default function AISearchView({ onCompareToggle, compareList, onSelectPro
             {/* Filter Group: Material */}
             <div className="space-y-2 mb-6 border-b border-outline-variant pb-4">
               <h4 className="font-semibold text-on-surface">Material Construction</h4>
-              {['Stainless Steel 316', 'Cast Iron GG25', 'Carbon Steel A216', 'Aluminum Alloy'].map((mat) => (
+              {['Stainless Steel 316', 'Cast Iron GG25', 'Carbon Steel A216', 'Aluminum Alloy', 'Titanium Grade 2'].map((mat) => (
                 <label key={mat} className="flex items-center gap-2 cursor-pointer text-on-surface-variant hover:text-on-surface">
                   <input
                     type="radio"
@@ -154,16 +169,19 @@ export default function AISearchView({ onCompareToggle, compareList, onSelectPro
 
         {/* Results Area */}
         <div className="flex-1 space-y-4">
-          <div className="flex justify-between items-center">
-            <h3 className="font-headline-sm text-base font-semibold text-on-surface flex items-center gap-2">
-              <Sparkles size={18} className="text-purple-600" />
+          <div className="flex justify-between items-center bg-surface-container-lowest border border-outline-variant p-3 rounded-lg">
+            <h3 className="font-headline-sm text-sm font-semibold text-on-surface flex items-center gap-2">
+              <Sparkles size={16} className="text-purple-600" />
               <span>AI matched {products.length} industrial SKUs</span>
             </h3>
+            <div className="text-xs text-on-surface-variant font-data-mono">
+              Page {currentPage} of {totalPages}
+            </div>
           </div>
 
           {/* Product Cards Bento Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-            {products.map((p) => {
+            {paginatedProducts.map((p) => {
               const isCompared = compareList.some(item => item.id === p.id);
               const isFav = favorites.includes(p.id);
 
@@ -171,32 +189,32 @@ export default function AISearchView({ onCompareToggle, compareList, onSelectPro
                 <div
                   key={p.id}
                   onClick={() => onSelectProduct(p)}
-                  className={`bg-surface border rounded-lg overflow-hidden flex flex-col cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-md relative ${
-                    p.ai_score >= 95 ? 'border-t-2 border-t-purple-500 border-x border-b border-outline-variant' : 'border-outline-variant'
+                  className={`bg-surface-container-lowest border rounded-lg overflow-hidden flex flex-col cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-md relative ${
+                    p.ai_score >= 93 ? 'border-t-2 border-t-purple-500 border-x border-b border-outline-variant' : 'border-outline-variant'
                   }`}
                 >
-                  {p.ai_score >= 95 && (
+                  {p.ai_score >= 93 && (
                     <div className="absolute top-2 right-2 z-10">
-                      <span className="bg-purple-100 text-purple-800 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider flex items-center gap-1 border border-purple-200">
+                      <span className="bg-purple-100 text-purple-800 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider flex items-center gap-1 border border-purple-200 shadow-sm">
                         <Sparkles size={10} /> AI Recommended
                       </span>
                     </div>
                   )}
 
-                  <div className="h-44 bg-surface-variant relative flex items-center justify-center p-4">
-                    {p.image_url ? (
-                      <img src={p.image_url} alt={p.name} className="w-full h-full object-cover mix-blend-multiply opacity-90" />
-                    ) : (
-                      <div className="text-on-surface-variant text-center">
-                        <span className="text-xs font-data-mono">{p.category}</span>
-                      </div>
-                    )}
+                  <div className="h-40 bg-gradient-to-br from-primary-container to-secondary-container/20 relative flex items-center justify-center p-4">
+                    <div className="text-center text-on-primary">
+                      <span className="text-xs font-data-mono font-bold block opacity-80">{p.sku}</span>
+                      <span className="text-sm font-bold block mt-1">{p.category}</span>
+                    </div>
                   </div>
 
                   <div className="p-4 flex-1 flex flex-col justify-between text-xs space-y-3">
                     <div>
-                      <p className="font-data-mono text-[10px] text-on-surface-variant">{p.sku}</p>
-                      <h4 className="font-semibold text-sm text-on-surface leading-tight mt-0.5">{p.name}</h4>
+                      <div className="flex justify-between items-start">
+                        <p className="font-data-mono text-[10px] text-on-surface-variant">{p.supplier_name}</p>
+                        <span className="text-[10px] font-semibold text-purple-700">{p.material}</span>
+                      </div>
+                      <h4 className="font-semibold text-sm text-on-surface leading-tight mt-1">{p.name}</h4>
                       <p className="text-[11px] text-on-surface-variant mt-1 line-clamp-2">{p.description}</p>
                     </div>
 
@@ -208,7 +226,7 @@ export default function AISearchView({ onCompareToggle, compareList, onSelectPro
 
                     <div className="pt-2 border-t border-outline-variant flex items-end justify-between">
                       <div>
-                        <p className="text-[11px] text-on-surface-variant">Unit Price</p>
+                        <p className="text-[10px] text-on-surface-variant">Unit Price</p>
                         <p className="font-headline-sm text-base font-bold text-on-surface">₹ {p.price.toLocaleString('en-IN')}</p>
                       </div>
                       <div className="text-right">
@@ -220,7 +238,7 @@ export default function AISearchView({ onCompareToggle, compareList, onSelectPro
                     <div className="flex gap-2 pt-1" onClick={(e) => e.stopPropagation()}>
                       <button
                         onClick={() => onSelectProduct(p)}
-                        className="flex-1 bg-secondary-container hover:bg-secondary text-on-secondary py-1.5 px-3 rounded font-medium text-xs transition-colors"
+                        className="flex-1 bg-secondary-container hover:bg-secondary text-on-secondary py-1.5 px-3 rounded font-semibold text-xs transition-colors shadow-sm"
                       >
                         View Details
                       </button>
@@ -248,6 +266,42 @@ export default function AISearchView({ onCompareToggle, compareList, onSelectPro
               );
             })}
           </div>
+
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="flex justify-between items-center pt-4 border-t border-outline-variant">
+              <button
+                onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
+                disabled={currentPage === 1}
+                className="px-3 py-1.5 bg-surface-container border border-outline-variant rounded text-xs font-semibold text-on-surface disabled:opacity-50 flex items-center gap-1"
+              >
+                <ChevronLeft size={14} /> Previous
+              </button>
+
+              <div className="flex gap-1 text-xs">
+                {Array.from({ length: Math.min(totalPages, 7) }, (_, idx) => idx + 1).map((pageNum) => (
+                  <button
+                    key={pageNum}
+                    onClick={() => setCurrentPage(pageNum)}
+                    className={`px-3 py-1 rounded font-data-mono font-bold ${
+                      currentPage === pageNum ? 'bg-primary-container text-on-primary' : 'bg-surface border border-outline-variant text-on-surface hover:bg-surface-container'
+                    }`}
+                  >
+                    {pageNum}
+                  </button>
+                ))}
+                {totalPages > 7 && <span className="px-2 py-1 text-on-surface-variant">... {totalPages}</span>}
+              </div>
+
+              <button
+                onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className="px-3 py-1.5 bg-surface-container border border-outline-variant rounded text-xs font-semibold text-on-surface disabled:opacity-50 flex items-center gap-1"
+              >
+                Next <ChevronRight size={14} />
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
