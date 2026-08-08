@@ -34,6 +34,7 @@ export default function Home() {
   const [isCopilotOpen, setIsCopilotOpen] = useState<boolean>(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState<boolean>(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
+  const [isMobileOpen, setIsMobileOpen] = useState<boolean>(false);
 
   // Full-screen standalone views without Sidebar/TopNav
   if (currentTab === 'welcome') {
@@ -102,19 +103,21 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-surface text-on-surface font-body-md min-h-screen flex overflow-hidden">
-      {/* Sidebar Component with Collapse/Expand System */}
+    <div className="bg-surface text-on-surface font-body-md min-h-screen flex overflow-x-hidden">
+      {/* Sidebar Component with Mobile Drawer System */}
       <Sidebar
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
         isCollapsed={isSidebarCollapsed}
         onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+        isMobileOpen={isMobileOpen}
+        onCloseMobile={() => setIsMobileOpen(false)}
       />
 
       {/* Main App Canvas */}
       <main
-        className={`flex-1 flex flex-col h-screen overflow-hidden transition-all duration-300 ${
-          isSidebarCollapsed ? 'ml-[72px]' : 'ml-[260px]'
+        className={`flex-1 flex flex-col min-h-screen overflow-x-hidden transition-all duration-300 ml-0 ${
+          isSidebarCollapsed ? 'md:ml-[72px]' : 'md:ml-[260px]'
         }`}
       >
         {/* Top Navbar */}
@@ -125,10 +128,11 @@ export default function Home() {
           setCurrentTab={setCurrentTab}
           isCollapsed={isSidebarCollapsed}
           onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+          onToggleMobileMenu={() => setIsMobileOpen(!isMobileOpen)}
         />
 
         {/* Content Canvas */}
-        <div className="flex-1 overflow-y-auto mt-16 p-6 md:p-8 bg-surface">
+        <div className="flex-1 overflow-y-auto mt-16 p-4 sm:p-6 md:p-8 bg-surface">
           <div className="max-w-[1600px] mx-auto">
             {currentTab === 'dashboard' && (
               <DashboardView onNavigate={(tab) => setCurrentTab(tab)} />

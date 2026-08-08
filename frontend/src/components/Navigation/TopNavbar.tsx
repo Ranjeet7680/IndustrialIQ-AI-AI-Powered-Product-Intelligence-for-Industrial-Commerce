@@ -10,6 +10,7 @@ interface TopNavbarProps {
   setCurrentTab: (tab: string) => void;
   isCollapsed: boolean;
   onToggleCollapse: () => void;
+  onToggleMobileMenu?: () => void;
 }
 
 export default function TopNavbar({
@@ -18,7 +19,8 @@ export default function TopNavbar({
   currentTab,
   setCurrentTab,
   isCollapsed,
-  onToggleCollapse
+  onToggleCollapse,
+  onToggleMobileMenu
 }: TopNavbarProps) {
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([
@@ -34,15 +36,25 @@ export default function TopNavbar({
 
   return (
     <header
-      className={`fixed top-0 right-0 h-16 bg-surface border-b border-outline-variant flex justify-between items-center px-6 z-30 font-body-md transition-all duration-300 ${
-        isCollapsed ? 'w-[calc(100%-72px)]' : 'w-[calc(100%-260px)]'
+      className={`fixed top-0 right-0 h-16 bg-surface border-b border-outline-variant flex justify-between items-center px-4 md:px-6 z-30 font-body-md transition-all duration-300 w-full ${
+        isCollapsed ? 'md:w-[calc(100%-72px)]' : 'md:w-[calc(100%-260px)]'
       }`}
     >
       {/* Sidebar Toggle & Global Voice Search */}
-      <div className="flex items-center gap-3 w-2/5">
+      <div className="flex items-center gap-2 md:gap-3 flex-1 max-w-md">
+        {/* Mobile Menu Button */}
+        <button
+          onClick={onToggleMobileMenu}
+          className="md:hidden p-2 text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors"
+          title="Open Menu"
+        >
+          <Menu size={20} />
+        </button>
+
+        {/* Desktop Collapse Toggle Button */}
         <button
           onClick={onToggleCollapse}
-          className="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors"
+          className="hidden md:flex p-2 text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors"
           title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
         >
           <Menu size={20} />
@@ -54,17 +66,17 @@ export default function TopNavbar({
             className="flex-1 flex items-center justify-between px-3 py-2 bg-surface-container-low border border-outline-variant rounded hover:border-secondary transition-all text-xs text-on-surface-variant group"
           >
             <div className="flex items-center gap-2">
-              <Search size={16} className="text-on-surface-variant group-hover:text-secondary" />
+              <Search size={16} className="text-on-surface-variant group-hover:text-secondary shrink-0" />
               <span className="hidden sm:inline">Search products, suppliers, orders (Ctrl+K)</span>
               <span className="sm:hidden">Search...</span>
             </div>
-            <kbd className="px-1.5 py-0.5 text-[10px] font-data-mono bg-surface border border-outline-variant rounded">Ctrl+K</kbd>
+            <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-data-mono bg-surface border border-outline-variant rounded">Ctrl+K</kbd>
           </button>
 
           {/* Voice Search Mic Button */}
           <button
             onClick={onToggleCopilot}
-            className="p-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors shadow-sm"
+            className="p-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors shadow-sm shrink-0"
             title="AI Voice Search (Speak in Hindi/English)"
           >
             <Mic size={16} />
@@ -73,21 +85,21 @@ export default function TopNavbar({
       </div>
 
       {/* Screen Title */}
-      <div className="hidden lg:block text-center">
-        <h2 className="font-headline-sm text-headline-sm font-bold text-on-surface capitalize">
+      <div className="hidden xl:block text-center px-4">
+        <h2 className="font-headline-sm text-sm font-bold text-on-surface capitalize truncate">
           {currentTab.replace('-', ' ')}
         </h2>
       </div>
 
       {/* Actions */}
-      <div className="flex items-center gap-3 relative">
+      <div className="flex items-center gap-2 md:gap-3 relative shrink-0">
         <button
           onClick={onToggleCopilot}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-purple-500/10 text-purple-700 border border-purple-300 hover:bg-purple-500/20 transition-all text-xs font-semibold"
+          className="flex items-center gap-1.5 px-2.5 md:px-3 py-1.5 rounded-full bg-purple-500/10 text-purple-700 border border-purple-300 hover:bg-purple-500/20 transition-all text-xs font-semibold"
           title="Open AI Voice Copilot"
         >
           <Sparkles size={14} className="text-purple-600 animate-pulse" />
-          <span>AI Voice Copilot</span>
+          <span className="hidden sm:inline">AI Voice Copilot</span>
         </button>
 
         {/* Notifications Button */}
@@ -104,7 +116,7 @@ export default function TopNavbar({
 
           {/* Notifications Dropdown */}
           {showNotifications && (
-            <div className="absolute right-0 mt-2 w-80 bg-surface-container-lowest border border-outline-variant rounded-lg shadow-xl p-4 z-50">
+            <div className="absolute right-0 mt-2 w-72 sm:w-80 bg-surface-container-lowest border border-outline-variant rounded-lg shadow-xl p-4 z-50">
               <div className="flex items-center justify-between border-b border-outline-variant pb-2 mb-3">
                 <h4 className="font-semibold text-sm">Notifications</h4>
                 <button onClick={markAllRead} className="text-[11px] text-secondary hover:underline">Mark all read</button>
@@ -113,7 +125,7 @@ export default function TopNavbar({
                 {notifications.map((n) => (
                   <div key={n.id} className={`p-2.5 rounded border text-xs ${n.read ? 'bg-surface opacity-75' : 'bg-surface-container-low border-secondary/30'}`}>
                     <div className="flex items-center gap-2 font-semibold mb-1 text-on-surface">
-                      {n.type === 'warning' ? <AlertTriangle size={14} className="text-amber-500" /> : <CheckCircle2 size={14} className="text-green-600" />}
+                      {n.type === 'warning' ? <AlertTriangle size={14} className="text-amber-500 shrink-0" /> : <CheckCircle2 size={14} className="text-green-600 shrink-0" />}
                       <span>{n.title}</span>
                     </div>
                     <p className="text-on-surface-variant">{n.msg}</p>
@@ -124,7 +136,7 @@ export default function TopNavbar({
           )}
         </div>
 
-        <button onClick={() => setCurrentTab('landing')} className="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full">
+        <button onClick={() => setCurrentTab('landing')} className="hidden sm:block p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full">
           <HelpCircle size={18} />
         </button>
 
@@ -134,7 +146,7 @@ export default function TopNavbar({
           className="flex items-center gap-2 pl-2 pr-3 py-1 bg-primary-container text-on-primary rounded hover:bg-primary transition-colors text-xs"
         >
           <User size={16} />
-          <span className="font-medium hidden sm:inline">Ranjeet (Procurement)</span>
+          <span className="font-medium hidden md:inline">Ranjeet</span>
         </button>
       </div>
     </header>

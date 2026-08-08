@@ -57,30 +57,31 @@ export default function ProductDetailView({ product, onBack, onNavigateProcureme
         <ArrowLeft size={16} /> Back to Search Catalog
       </button>
 
-      <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Image Container */}
-          <div className="bg-surface-variant rounded-lg p-6 flex items-center justify-center min-h-[300px] border border-outline-variant/60">
-            {product.image_url ? (
-              <img src={product.image_url} alt={product.name} className="max-h-72 object-cover mix-blend-multiply opacity-95" />
-            ) : (
-              <div className="text-center text-on-surface-variant">
-                <span className="font-data-mono text-sm">{product.category}</span>
-              </div>
-            )}
+      <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 sm:p-6 shadow-sm">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Image Container with AI Photo */}
+          <div className="bg-surface-container-high rounded-xl overflow-hidden min-h-[300px] border border-outline-variant relative shadow-inner">
+            <img
+              src={product.image_url || 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80'}
+              alt={product.name}
+              className="w-full h-80 sm:h-96 object-cover"
+            />
+            <div className="absolute bottom-3 left-3 bg-black/70 backdrop-blur-md px-3 py-1 rounded text-white font-data-mono text-xs">
+              SKU: {product.sku}
+            </div>
           </div>
 
           {/* Details & Specs */}
           <div className="space-y-4 text-xs">
             <div>
               <span className="font-data-mono text-on-surface-variant">{product.sku}</span>
-              <h1 className="font-headline-sm text-2xl font-bold text-on-surface mt-1">{product.name}</h1>
-              <p className="text-on-surface-variant mt-2 text-sm leading-relaxed">{product.description}</p>
+              <h1 className="font-headline-sm text-xl sm:text-2xl font-bold text-on-surface mt-1">{product.name}</h1>
+              <p className="text-on-surface-variant mt-2 text-xs sm:text-sm leading-relaxed">{product.description}</p>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <span className="bg-green-100 text-green-800 text-xs px-2.5 py-1 rounded font-medium flex items-center gap-1">
-                <ShieldCheck size={14} /> Verified Supplier: {product.brand}
+                <ShieldCheck size={14} /> Verified Supplier: {product.supplier_name}
               </span>
               <span className="bg-blue-100 text-blue-800 text-xs px-2.5 py-1 rounded font-medium">
                 Warranty: {product.warranty_months} Months
@@ -89,19 +90,13 @@ export default function ProductDetailView({ product, onBack, onNavigateProcureme
 
             <div className="p-4 bg-surface rounded border border-outline-variant flex items-center justify-between">
               <div>
-                <span className="text-on-surface-variant">Standard Unit Price</span>
-                <div className="font-headline-sm text-2xl font-bold text-on-surface">
-                  ₹ {product.price.toLocaleString('en-IN')}
-                </div>
+                <p className="text-[10px] text-on-surface-variant uppercase font-bold">Standard Unit Price</p>
+                <p className="font-headline-md text-2xl font-bold text-on-surface">₹ {product.price?.toLocaleString('en-IN')}</p>
               </div>
-              <button
-                onClick={handleProcure}
-                disabled={procuring}
-                className="px-6 py-3 bg-secondary-container text-on-secondary rounded text-sm font-semibold hover:bg-secondary transition-colors flex items-center gap-2 shadow-md"
-              >
-                <ShoppingCart size={16} />
-                <span>{procuring ? 'Issuing RFQ...' : 'Add to Procurement (Issue RFQ)'}</span>
-              </button>
+              <div className="text-right">
+                <span className="font-data-mono font-bold text-2xl text-purple-600">{product.ai_score} / 100</span>
+                <span className="text-[10px] uppercase font-bold text-on-surface-variant block">AI Intelligence Match</span>
+              </div>
             </div>
 
             {procuredMsg && (
@@ -110,42 +105,71 @@ export default function ProductDetailView({ product, onBack, onNavigateProcureme
                 <span>{procuredMsg}</span>
               </div>
             )}
+
+            <div className="flex gap-3 pt-2">
+              <button
+                onClick={handleProcure}
+                disabled={procuring}
+                className="flex-1 py-3 bg-primary-container text-on-primary rounded-lg font-semibold text-xs hover:bg-primary transition-colors flex items-center justify-center gap-2 shadow-md"
+              >
+                <ShoppingCart size={16} />
+                <span>{procuring ? 'Issuing RFQ...' : 'Issue Instant RFQ / Purchase Order'}</span>
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* AI Explainable Intelligence Breakdown */}
-        <div className="mt-8 pt-8 border-t border-outline-variant">
-          <div className="flex items-center gap-2 mb-4">
-            <Sparkles className="text-purple-600" size={20} />
-            <h3 className="font-headline-sm text-lg font-bold text-on-surface">Explainable AI Intelligence Score</h3>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-4">
-            <div className="bg-purple-50 border border-purple-200 p-4 rounded text-center">
-              <span className="text-[10px] text-purple-700 font-bold uppercase block">Overall AI Score</span>
-              <span className="font-data-mono font-bold text-2xl text-purple-800">{product.ai_score} / 100</span>
-            </div>
-            <div className="bg-surface border border-outline-variant p-4 rounded text-center">
-              <span className="text-[10px] text-on-surface-variant font-bold uppercase block">Quality Rating</span>
-              <span className="font-data-mono font-bold text-xl text-on-surface">{product.quality_score}</span>
-            </div>
-            <div className="bg-surface border border-outline-variant p-4 rounded text-center">
-              <span className="text-[10px] text-on-surface-variant font-bold uppercase block">Reliability Score</span>
-              <span className="font-data-mono font-bold text-xl text-on-surface">{product.reliability_score}</span>
-            </div>
-            <div className="bg-surface border border-outline-variant p-4 rounded text-center">
-              <span className="text-[10px] text-on-surface-variant font-bold uppercase block">Value Rating</span>
-              <span className="font-data-mono font-bold text-xl text-on-surface">{product.value_score}</span>
-            </div>
-            <div className="bg-surface border border-outline-variant p-4 rounded text-center">
-              <span className="text-[10px] text-on-surface-variant font-bold uppercase block">Availability Status</span>
-              <span className="font-data-mono font-bold text-xl text-green-700">{product.availability}</span>
+        {/* Technical Specifications & AI Weighted Score */}
+        <div className="mt-8 pt-8 border-t border-outline-variant grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div>
+            <h3 className="font-headline-sm text-base font-bold text-on-surface mb-3">Technical Specifications</h3>
+            <div className="space-y-2 border border-outline-variant rounded-lg overflow-hidden">
+              {product.specifications?.map((spec: any, idx: number) => (
+                <div key={idx} className="flex justify-between p-3 text-xs bg-surface-container-lowest even:bg-surface-container-low">
+                  <span className="font-semibold text-on-surface-variant">{spec.key}</span>
+                  <span className="font-data-mono font-bold text-on-surface">{spec.value}</span>
+                </div>
+              ))}
             </div>
           </div>
 
-          <p className="text-xs text-on-surface-variant bg-surface p-3 rounded border border-outline-variant">
-            {intelligence?.explanation || `Overall AI Confidence Score of ${product.ai_score}/100 is computed from Quality (${product.quality_score}), Reliability (${product.reliability_score}), Value Rating (${product.value_score}), and Supplier Track Record.`}
-          </p>
+          <div>
+            <h3 className="font-headline-sm text-base font-bold text-on-surface mb-3 flex items-center gap-2">
+              <Sparkles size={18} className="text-purple-600" />
+              <span>AI Weighted Confidence Breakdown</span>
+            </h3>
+            <div className="space-y-3 bg-surface-container-lowest border border-outline-variant p-4 rounded-lg">
+              <div>
+                <div className="flex justify-between text-xs font-semibold mb-1">
+                  <span>Quality Index</span>
+                  <span className="font-data-mono text-green-700">{product.quality_score}%</span>
+                </div>
+                <div className="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+                  <div className="h-full bg-green-600" style={{ width: `${product.quality_score}%` }} />
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between text-xs font-semibold mb-1">
+                  <span>Reliability Telemetry</span>
+                  <span className="font-data-mono text-purple-700">{product.reliability_score}%</span>
+                </div>
+                <div className="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+                  <div className="h-full bg-purple-600" style={{ width: `${product.reliability_score}%` }} />
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between text-xs font-semibold mb-1">
+                  <span>Value & Price Index</span>
+                  <span className="font-data-mono text-secondary">{product.value_score}%</span>
+                </div>
+                <div className="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+                  <div className="h-full bg-secondary-container" style={{ width: `${product.value_score}%` }} />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

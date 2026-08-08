@@ -2,6 +2,42 @@
 
 const CATEGORIES = ["Pumps", "Valves", "Motors", "Bearings", "Compressors", "Sensors", "Controllers", "Robotics"];
 const MATERIALS = ["Stainless Steel 316", "Cast Iron GG25", "Carbon Steel A216", "Aluminum Alloy", "Titanium Grade 2", "Brass / Bronze"];
+
+const CATEGORY_IMAGES: Record<string, string[]> = {
+  Pumps: [
+    "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80",
+    "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&q=80"
+  ],
+  Valves: [
+    "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&q=80",
+    "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80"
+  ],
+  Motors: [
+    "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80",
+    "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=600&q=80"
+  ],
+  Bearings: [
+    "https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?auto=format&fit=crop&w=600&q=80",
+    "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80"
+  ],
+  Compressors: [
+    "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=600&q=80",
+    "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&w=600&q=80"
+  ],
+  Sensors: [
+    "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&w=600&q=80",
+    "https://images.unsplash.com/photo-1581092334651-ddf26d9a09d0?auto=format&fit=crop&w=600&q=80"
+  ],
+  Controllers: [
+    "https://images.unsplash.com/photo-1581092334651-ddf26d9a09d0?auto=format&fit=crop&w=600&q=80",
+    "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80"
+  ],
+  Robotics: [
+    "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80",
+    "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80"
+  ]
+};
+
 const SUPPLIERS = [
   { name: "Grundfos Pumps India Ltd", location: "Chennai, TN", quality: 98, delivery: 96, risk: "Low", status: "Vetted Tier-1" },
   { name: "Siemens Industry Automation", location: "Mumbai, MH", quality: 99, delivery: 98, risk: "Low", status: "Vetted Tier-1" },
@@ -36,6 +72,8 @@ export function generate500Products() {
     const prefix = prefixes[i % prefixes.length];
     const supplier = SUPPLIERS[i % SUPPLIERS.length];
     const material = MATERIALS[i % MATERIALS.length];
+    const imgs = CATEGORY_IMAGES[category];
+    const imgUrl = imgs[i % imgs.length];
 
     const basePrice = Math.floor(15000 + ((i * 34771) % 4850000));
     const aiScore = Math.floor(82 + ((i * 17) % 18));
@@ -56,6 +94,7 @@ export function generate500Products() {
       value_score: valueScore,
       supplier_name: supplier.name,
       material: material,
+      image_url: imgUrl,
       availability: id % 3 === 0 ? "In Stock (Ships in 24h)" : id % 3 === 1 ? "Lead Time: 3-5 Days" : "Factory Direct (10 Days)",
       warranty_months: id % 2 === 0 ? 24 : 36,
       rating: parseFloat((4.3 + (id % 8) * 0.1).toFixed(1)),
