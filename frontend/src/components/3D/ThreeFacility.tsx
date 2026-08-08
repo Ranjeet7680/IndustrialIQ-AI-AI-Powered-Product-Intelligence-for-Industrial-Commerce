@@ -132,6 +132,9 @@ export default function ThreeFacility() {
       window.removeEventListener('resize', handleResize);
       if (renderer.domElement) {
         renderer.domElement.removeEventListener('click', handleClick);
+        if (containerRef.current && containerRef.current.contains(renderer.domElement)) {
+          containerRef.current.removeChild(renderer.domElement);
+        }
       }
       renderer.dispose();
     };
