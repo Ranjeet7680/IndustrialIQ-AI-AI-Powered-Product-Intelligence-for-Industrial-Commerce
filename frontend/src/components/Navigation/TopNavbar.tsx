@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Search, Bot, Bell, HelpCircle, User, Sparkles, X, CheckCircle2, AlertTriangle, Menu } from 'lucide-react';
+import { Search, Bot, Bell, HelpCircle, User, Sparkles, X, CheckCircle2, AlertTriangle, Menu, Mic } from 'lucide-react';
 
 interface TopNavbarProps {
   onOpenSearch: () => void;
@@ -38,8 +38,8 @@ export default function TopNavbar({
         isCollapsed ? 'w-[calc(100%-72px)]' : 'w-[calc(100%-260px)]'
       }`}
     >
-      {/* Sidebar Toggle & Global Search */}
-      <div className="flex items-center gap-3 w-1/3">
+      {/* Sidebar Toggle & Global Voice Search */}
+      <div className="flex items-center gap-3 w-2/5">
         <button
           onClick={onToggleCollapse}
           className="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors"
@@ -48,17 +48,28 @@ export default function TopNavbar({
           <Menu size={20} />
         </button>
 
-        <button
-          onClick={onOpenSearch}
-          className="w-full flex items-center justify-between px-3 py-2 bg-surface-container-low border border-outline-variant rounded hover:border-secondary transition-all text-xs text-on-surface-variant group"
-        >
-          <div className="flex items-center gap-2">
-            <Search size={16} className="text-on-surface-variant group-hover:text-secondary" />
-            <span className="hidden sm:inline">Search products, suppliers, orders (Ctrl+K)</span>
-            <span className="sm:hidden">Search...</span>
-          </div>
-          <kbd className="px-1.5 py-0.5 text-[10px] font-data-mono bg-surface border border-outline-variant rounded">Ctrl+K</kbd>
-        </button>
+        <div className="flex items-center gap-1.5 w-full">
+          <button
+            onClick={onOpenSearch}
+            className="flex-1 flex items-center justify-between px-3 py-2 bg-surface-container-low border border-outline-variant rounded hover:border-secondary transition-all text-xs text-on-surface-variant group"
+          >
+            <div className="flex items-center gap-2">
+              <Search size={16} className="text-on-surface-variant group-hover:text-secondary" />
+              <span className="hidden sm:inline">Search products, suppliers, orders (Ctrl+K)</span>
+              <span className="sm:hidden">Search...</span>
+            </div>
+            <kbd className="px-1.5 py-0.5 text-[10px] font-data-mono bg-surface border border-outline-variant rounded">Ctrl+K</kbd>
+          </button>
+
+          {/* Voice Search Mic Button */}
+          <button
+            onClick={onToggleCopilot}
+            className="p-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors shadow-sm"
+            title="AI Voice Search (Speak in Hindi/English)"
+          >
+            <Mic size={16} />
+          </button>
+        </div>
       </div>
 
       {/* Screen Title */}
@@ -73,10 +84,10 @@ export default function TopNavbar({
         <button
           onClick={onToggleCopilot}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-purple-500/10 text-purple-700 border border-purple-300 hover:bg-purple-500/20 transition-all text-xs font-semibold"
-          title="Open AI Copilot"
+          title="Open AI Voice Copilot"
         >
           <Sparkles size={14} className="text-purple-600 animate-pulse" />
-          <span>AI Copilot</span>
+          <span>AI Voice Copilot</span>
         </button>
 
         {/* Notifications Button */}
