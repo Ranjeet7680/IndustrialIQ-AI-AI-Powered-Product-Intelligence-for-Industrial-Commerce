@@ -15,11 +15,12 @@ IndustrialIQ AI is a production-ready, full-stack enterprise B2B platform design
 
 ---
 
-## 🚀 Deploy to Vercel
+## 🚀 Deploy & Live Demo
+
+- **Live Web Application**: 👉 **[https://frontend-sand-tau-90.vercel.app](https://frontend-sand-tau-90.vercel.app)**
+- **GitHub Repository**: [`Ranjeet7680/IndustrialIQ-AI-AI-Powered-Product-Intelligence-for-Industrial-Commerce`](https://github.com/Ranjeet7680/IndustrialIQ-AI-AI-Powered-Product-Intelligence-for-Industrial-Commerce)
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FRanjeet7680%2FIndustrialIQ-AI-AI-Powered-Product-Intelligence-for-Industrial-Commerce)
-
-You can instantly deploy this project to Vercel by clicking the button above or importing the repository [`Ranjeet7680/IndustrialIQ-AI-AI-Powered-Product-Intelligence-for-Industrial-Commerce`](https://github.com/Ranjeet7680/IndustrialIQ-AI-AI-Powered-Product-Intelligence-for-Industrial-Commerce) in your Vercel Dashboard.
 
 ---
 
