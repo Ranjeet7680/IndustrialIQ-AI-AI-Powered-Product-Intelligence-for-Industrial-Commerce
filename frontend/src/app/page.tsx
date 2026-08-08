@@ -32,6 +32,7 @@ export default function Home() {
   const [isCompareModalOpen, setIsCompareModalOpen] = useState<boolean>(false);
   const [isCopilotOpen, setIsCopilotOpen] = useState<boolean>(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState<boolean>(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
 
   // Full-screen standalone views without Sidebar/TopNav
   if (currentTab === 'welcome') {
@@ -101,17 +102,28 @@ export default function Home() {
 
   return (
     <div className="bg-surface text-on-surface font-body-md min-h-screen flex overflow-hidden">
-      {/* Sidebar Component */}
-      <Sidebar currentTab={currentTab} setCurrentTab={setCurrentTab} />
+      {/* Sidebar Component with Collapse/Expand System */}
+      <Sidebar
+        currentTab={currentTab}
+        setCurrentTab={setCurrentTab}
+        isCollapsed={isSidebarCollapsed}
+        onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+      />
 
       {/* Main App Canvas */}
-      <main className="ml-[260px] flex-1 flex flex-col h-screen overflow-hidden">
+      <main
+        className={`flex-1 flex flex-col h-screen overflow-hidden transition-all duration-300 ${
+          isSidebarCollapsed ? 'ml-[72px]' : 'ml-[260px]'
+        }`}
+      >
         {/* Top Navbar */}
         <TopNavbar
           onOpenSearch={() => setIsCommandPaletteOpen(true)}
           onToggleCopilot={() => setIsCopilotOpen(!isCopilotOpen)}
           currentTab={currentTab}
           setCurrentTab={setCurrentTab}
+          isCollapsed={isSidebarCollapsed}
+          onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
         />
 
         {/* Content Canvas */}
