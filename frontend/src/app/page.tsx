@@ -23,6 +23,12 @@ import AnalyticsView from '../views/AnalyticsView';
 import ReportsView from '../views/ReportsView';
 import AdminView from '../views/AdminView';
 import SettingsView from '../views/SettingsView';
+import CopilotView from '../views/CopilotView';
+import ProfileView from '../views/ProfileView';
+import HelpView from '../views/HelpView';
+import CatalogEnrichmentView from '../views/CatalogEnrichmentView';
+import DocumentationWikiView from '../views/DocumentationWikiView';
+import IDCardSystemView from '../views/IDCardSystemView';
 import ThreeFacility from '../components/3D/ThreeFacility';
 
 export default function Home() {
@@ -138,6 +144,10 @@ export default function Home() {
               <DashboardView onNavigate={(tab) => setCurrentTab(tab)} />
             )}
 
+            {currentTab === 'enrichment' && (
+              <CatalogEnrichmentView />
+            )}
+
             {(currentTab === 'search' || currentTab === 'product-intel') && (
               <AISearchView
                 onCompareToggle={handleCompareToggle}
@@ -169,11 +179,41 @@ export default function Home() {
 
             {currentTab === 'reports' && <ReportsView />}
 
-            {currentTab === '3d-facility' && <ThreeFacility />}
+            {currentTab === '3d-facility' && (
+              <ThreeFacility onNavigate={(tab) => setCurrentTab(tab)} />
+            )}
 
             {currentTab === 'admin' && <AdminView />}
 
             {currentTab === 'settings' && <SettingsView />}
+
+            {currentTab === 'copilot' && (
+              <CopilotView
+                onCompareToggle={handleCompareToggle}
+                compareList={compareList}
+                onSelectProduct={(p) => {
+                  setSelectedProduct(p);
+                  setCurrentTab('product-detail');
+                }}
+                onNavigate={(tab) => setCurrentTab(tab)}
+              />
+            )}
+
+            {currentTab === 'profile' && (
+              <ProfileView onNavigate={(tab) => setCurrentTab(tab)} />
+            )}
+
+            {currentTab === 'help' && (
+              <HelpView onNavigate={(tab) => setCurrentTab(tab)} />
+            )}
+
+            {(currentTab === 'wiki' || currentTab === 'docs') && (
+              <DocumentationWikiView />
+            )}
+
+            {currentTab === 'id-card' && (
+              <IDCardSystemView />
+            )}
 
             {(currentTab === 'recommendations' || currentTab === 'favorites') && (
               <AISearchView

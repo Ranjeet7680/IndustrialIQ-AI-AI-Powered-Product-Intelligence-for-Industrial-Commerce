@@ -26,34 +26,57 @@ IndustrialIQ AI is a production-ready, full-stack enterprise B2B platform design
 
 ## 🌟 Key Features
 
-1. **Natural Language Semantic Product Search**:
+1. **Unilog Catalog Intelligence & 252-Column Enrichment Engine** *(NEW)*:
+   - **9-Stage Normalization Pipeline**: Ingests messy distributor rows and standardizes them into the **252-Column Delivery Schema**.
+   - **Canonical Brand & Trademark Matching**: Resolves 27,500+ brand entities with legal symbols (`FRIGIDAIRE®`, `Diablo®`, `3M™`, `Milwaukee®`).
+   - **Master UOM Standards & Spacing**: 500+ rules enforcing standard abbreviations (`in`, `ft`, `dBA`, `V`, `A`, `psi`) and single space formatting (`24 in`, not `24in`).
+   - **63 Exact Fraction Lookups**: Converts manufacturer decimals into trade search fractions ($50.25\text{ in} \rightarrow \text{50-1/4 in}$, $33.4375\text{ in} \rightarrow \text{33-7/16 in}$).
+   - **5-Tier Standard Descriptions**: Builds `INVOICE_DESC` ($\le 40$ chars, ALL CAPS), `MOBILE_DESC` (60–80 chars), `SHORT_DESC` (Title), `LONG_DESC1`, and `RETAIL_DESC`.
+   - **Digital Asset Synthesis**: Synthesizes standard filenames for product images, alternate images 1..4, and specification sheet PDFs.
+   - **Batch File Processor & One-Click Export**: Process 1,000 items in 0.29s (3,390 SKUs/sec) with instant export to Delivery CSV or Delivery XLSX.
+   - **Live Single-Item Sandbox**: Real-time playground to test arbitrary raw distributor strings with 8-stage execution telemetry.
+
+2. **Natural Language Semantic Product Search**:
    - Natural language search query parsing with intent detection, price constraint bounds, and material extraction (e.g., *"Find stainless steel centrifugal pumps for high-pressure applications under ₹3 lakh"*).
 
-2. **7-Factor Explainable AI Score**:
+3. **7-Factor Explainable AI Score**:
    - Transparent multi-factor scoring formula:
      $$\text{AI Score} = 0.20 \times \text{Quality} + 0.20 \times \text{Reliability} + 0.20 \times \text{Value} + 0.15 \times \text{Supplier} + 0.10 \times \text{Availability} + 0.10 \times \text{Spec Match} + 0.05 \times \text{Price Competitiveness}$$
    - Normalized from 0 to 100 with clear sub-score breakdown and textual explanation.
 
-3. **End-to-End B2B Procurement Engine**:
+4. **End-to-End B2B Procurement Engine**:
    - Complete operational flow: **Product Discovery $\rightarrow$ RFQ Creation $\rightarrow$ Multi-Supplier Quotation Comparison $\rightarrow$ PO Issuance $\rightarrow$ Order Tracking Timeline $\rightarrow$ Digital Invoice View**.
 
-4. **Supplier Intelligence & Risk Telemetry**:
+5. **Supplier Intelligence & Risk Telemetry**:
    - Evaluates supplier quality scores, delivery reliability, defect rates, response times, and risk levels (*Low, Medium, High*).
 
-5. **Interactive 3D Supply Chain Network**:
+6. **Interactive 3D Supply Chain Network**:
    - Rendered using Three.js / WebGL canvas featuring interactive equipment nodes (Pumps, Valves, Motors, Compressors, Logistics Hubs) with live telemetry popups.
 
-6. **AI Copilot Assistant**:
-   - Natural language assistant capable of executing internal platform tools (`search_products`, `compare_products`, `search_suppliers`, `get_price_history`, `create_procurement_request`) with action confirmation safeguards for financial operations.
+7. **AI Copilot Assistant**:
+   - Natural language assistant capable of executing internal platform tools (`search_products`, `compare_products`, `search_suppliers`, `get_price_history`, `create_procurement_request`) with action confirmation safeguards.
 
-7. **Global Command Palette (`Ctrl+K`)**:
-   - Instant search modal spanning across Products, Suppliers, Purchase Orders, and Reports.
+8. **In-Page Technical Wiki & Documentation Hub**:
+   - Comprehensive interactive documentation featuring architectural blueprints, process flows, wireframe diagrams, technology deep-dives, and 252 delivery schema references.
 
-8. **Executive Analytics & Predictive Price Forecasting**:
-   - Recharts dynamic spend vs. demand charts, price trend graphs, and 6-month XGBoost time-series predictive forecasting.
+---
 
-9. **Admin Suite & ML Operations**:
-   - Dataset pipeline status (*DataCo Smart Supply Chain, AI4I 2020 Predictive Maintenance*), ML Model Center metrics (*Product Ranking Engine, Supplier Risk Classifier*), system health diagnostics, and audit logs.
+## 🏗️ Process Flow & Architecture Diagrams
+
+### 1. 9-Stage Catalog Enrichment Flow
+```mermaid
+flowchart TD
+    A["Raw Catalog Feed (CSV / XLSX)"] --> B["Stage 1: Preprocessing & Placeholder Strip"]
+    B --> C["Stage 2: Part Deduplication & MPN Standardisation"]
+    C --> D["Stage 3: Taxonomy Classification (Dept > Class > Fine > Classpath)"]
+    D --> E["Stage 4: Manufacturer & Brand Canonicalization (®, ™)"]
+    E --> F["Stage 5: Technical Attribute Extraction & LOV Mapping"]
+    F --> G["Stage 6: Master UOM Cleansing & 63-Point Fraction Engine"]
+    G --> H["Stage 7: 5-Tier Rule-Based Description Builder"]
+    H --> I["Stage 8: Digital Assets & Documentation Synthesis"]
+    I --> J["Stage 9: 252 Static Header Delivery Schema Formatter"]
+    J --> K["Downloadable Enriched CSV & XLSX Export"]
+```
 
 ---
 

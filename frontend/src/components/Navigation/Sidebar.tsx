@@ -18,9 +18,12 @@ import {
   ShieldCheck,
   Box,
   Heart,
+  User,
   ChevronLeft,
   ChevronRight,
-  X
+  X,
+  BookOpen,
+  QrCode
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -42,6 +45,9 @@ export default function Sidebar({
 }: SidebarProps) {
   const navItems = [
     { id: 'dashboard', label: 'Overview', icon: LayoutDashboard },
+    { id: 'enrichment', label: 'Catalog Enrichment', icon: Sparkles, badge: 'UNILOG' },
+    { id: 'id-card', label: 'Digital ID Badge', icon: QrCode, badge: 'QR' },
+    { id: 'wiki', label: 'Docs & Wiki', icon: BookOpen, badge: 'DOCS' },
     { id: 'search', label: 'AI Search', icon: Search, badge: 'AI' },
     { id: 'product-intel', label: 'Product Intel', icon: TrendingUp },
     { id: 'recommendations', label: 'Recommendations', icon: Sparkles },
@@ -54,7 +60,9 @@ export default function Sidebar({
     { id: 'reports', label: 'Reports', icon: FileText },
     { id: '3d-facility', label: '3D Network', icon: Box, badge: '3D' },
     { id: 'copilot', label: 'Copilot', icon: Bot },
-    { id: 'admin', label: 'Admin Suite', icon: ShieldCheck }
+    { id: 'admin', label: 'Admin Suite', icon: ShieldCheck },
+    { id: 'profile', label: 'Profile', icon: User },
+    { id: 'help', label: 'Help & Support', icon: HelpCircle }
   ];
 
   return (

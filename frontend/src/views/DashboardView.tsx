@@ -80,6 +80,37 @@ export default function DashboardView({ onNavigate }: DashboardViewProps) {
         </button>
       </div>
 
+      {/* Unilog 252-Column Catalog Intelligence & Enrichment Pipeline Banner */}
+      <div className="bg-gradient-to-r from-primary-container/20 via-surface-container to-secondary-container/20 border border-primary/40 rounded-xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-sm">
+        <div className="flex items-center gap-3.5">
+          <div className="w-11 h-11 rounded-xl bg-primary/20 text-primary border border-primary/30 flex items-center justify-center font-black shrink-0">
+            <Sparkles size={24} />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-primary text-on-primary">
+                UNILOG CATALOG PIPELINE
+              </span>
+              <span className="text-xs font-semibold text-emerald-400">252 Delivery Headers Ground Truth</span>
+            </div>
+            <h3 className="text-base font-bold text-on-surface mt-1">
+              Industrial Catalog Intelligence & Normalization Engine
+            </h3>
+            <p className="text-xs text-on-surface-variant mt-0.5">
+              Transform cryptic supplier rows into standardized, search-ready 252-column records with master UOMs & fractions.
+            </p>
+          </div>
+        </div>
+
+        <button
+          onClick={() => onNavigate('enrichment')}
+          className="px-4 py-2.5 rounded-xl bg-primary text-on-primary text-xs font-bold hover:bg-primary/90 transition-all flex items-center gap-2 shadow-md shrink-0"
+        >
+          <span>Launch Enrichment Engine</span>
+          <ArrowUpRight size={16} />
+        </button>
+      </div>
+
       {/* KPI Grid */}
       <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
         <div className="bg-surface-container-lowest border border-outline-variant rounded-lg p-4">

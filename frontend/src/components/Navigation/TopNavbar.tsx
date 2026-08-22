@@ -136,14 +136,19 @@ export default function TopNavbar({
           )}
         </div>
 
-        <button onClick={() => setCurrentTab('landing')} className="hidden sm:block p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full">
+        <button
+          onClick={() => setCurrentTab('help')}
+          className="hidden sm:block p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full"
+          title="Help & Support Center"
+        >
           <HelpCircle size={18} />
         </button>
 
         {/* User Profile */}
         <button
-          onClick={() => setCurrentTab('auth')}
+          onClick={() => setCurrentTab('profile')}
           className="flex items-center gap-2 pl-2 pr-3 py-1 bg-primary-container text-on-primary rounded hover:bg-primary transition-colors text-xs"
+          title="View Profile"
         >
           <User size={16} />
           <span className="font-medium hidden md:inline">Ranjeet</span>

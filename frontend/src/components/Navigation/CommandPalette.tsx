@@ -32,6 +32,8 @@ export default function CommandPalette({ isOpen, onClose, onSelectTab }: Command
   if (!isOpen) return null;
 
   const mockItems = [
+    { type: 'pipeline', title: 'Catalog Intelligence & Enrichment Engine (Unilog 252 Delivery)', category: 'Enrichment Pipeline', target: 'enrichment' },
+    { type: 'pipeline', title: 'Single-Item Raw Description Normalization Sandbox', category: 'Enrichment Pipeline', target: 'enrichment' },
     { type: 'product', title: 'Grundfos CR 32-4 Vertical Multistage Pump', category: 'Pumps', target: 'search' },
     { type: 'product', title: 'KSB Movitec High Pressure Inline Pump', category: 'Pumps', target: 'search' },
     { type: 'supplier', title: 'Grundfos Pumps India Ltd', category: 'Supplier (Verified)', target: 'suppliers' },

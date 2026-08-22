@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from backend.app.core.config import settings
 from backend.app.core.database import engine, Base
 from backend.app.api import (
-    auth, products, suppliers, procurement, orders, analytics, copilot, reports, admin, notifications, favorites
+    auth, products, suppliers, procurement, orders, analytics, copilot, reports, admin, notifications, favorites, enrichment, idcard
 )
 
 # Initialize Database tables
@@ -39,6 +39,10 @@ app.include_router(reports.router, prefix=settings.API_V1_STR)
 app.include_router(admin.router, prefix=settings.API_V1_STR)
 app.include_router(notifications.router, prefix=settings.API_V1_STR)
 app.include_router(favorites.router, prefix=settings.API_V1_STR)
+app.include_router(enrichment.router, prefix=settings.API_V1_STR)
+app.include_router(enrichment.router, prefix="/api")
+app.include_router(idcard.router, prefix=settings.API_V1_STR)
+app.include_router(idcard.router, prefix="/api")
 
 @app.get("/")
 def root():
