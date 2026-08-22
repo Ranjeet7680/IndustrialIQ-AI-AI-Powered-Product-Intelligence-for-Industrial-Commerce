@@ -21,6 +21,7 @@ Thumbs.db
 
 # Local Environment & Temp DB
 *.log
+*.tsbuildinfo
 
 .vercel
 wiki_repo/
